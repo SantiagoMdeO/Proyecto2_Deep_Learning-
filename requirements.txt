@@ -1,7 +1,4 @@
-loguru
-pip
-python-dotenv
-ruff
-tqdm
-typer
--e .
+pandas==2.2.2
+torch==2.2.2
+sdv==1.13.1
+matplotlib==3.8.4
