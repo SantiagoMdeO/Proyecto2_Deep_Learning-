@@ -3,6 +3,61 @@ import seaborn as sns
 import pandas as pd
 from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_score, confusion_matrix
 
+plt.rcParams['figure.facecolor'] = '#1F2937' 
+plt.rcParams['axes.facecolor'] = '#0B0F19' 
+plt.rcParams['text.color'] = 'white'
+plt.rcParams['axes.labelcolor'] = 'white'
+plt.rcParams['xtick.color'] = 'white'
+plt.rcParams['ytick.color'] = 'white'   
+
+
+def plot_feature_distributions(real_data, synthetic_data):
+    features = real_data.columns.to_list()
+
+    n_cols = 3
+    n_rows = (len(features) + n_cols - 1) // n_cols
+
+    fig, axes = plt.subplots(n_rows, n_cols, figsize=(18, 5 * n_rows))
+
+    for i, feature in enumerate(features):
+        row = i // n_cols
+        col = i % n_cols
+
+        sns.histplot(
+            real_data[feature],
+            bins=30,
+            color='skyblue',
+            stat='count',
+            element='step',
+            fill=True,
+            alpha=0.2,
+            ax=axes[row, col]
+        )
+        
+        sns.histplot(
+            synthetic_data[feature],
+            bins=30,
+            color='indianred',
+            stat='count',
+            element='step',
+            fill=True,
+            alpha=0.2,
+            ax=axes[row, col]
+        )
+        
+        axes[row, col].set_title(f'Distribution of {feature}')
+        axes[row, col].set_xlabel(feature)
+        axes[row, col].set_ylabel('Frequency')
+        axes[row, col].legend(['Real Data', 'Synthetic Data'])
+
+    for j in range(i + 1, n_rows * n_cols):
+        fig.delaxes(axes[j // n_cols, j % n_cols])
+    
+
+    plt.tight_layout()
+    return fig
+
+
 def get_metrics_df(y_true, y_real_pred, y_synth_pred):
     metrics = {
         'Model': ['Real Data Model', 'Synthetic Data Model'],
@@ -30,7 +85,6 @@ def plot_comparative_credit_score_distribution(
     real_scores,
     synth_scores,
     bins=50,
-    kde=True,
     title='Comparative Credit Score Distribution: Real vs Synthetic Models'
 ):
     fig, axes = plt.subplots(1, 2, figsize=(16, 5), sharey=True)
@@ -38,10 +92,11 @@ def plot_comparative_credit_score_distribution(
     sns.histplot(
         real_scores,
         bins=bins,
-        kde=kde,
-        color='#1F77B4',
-        edgecolor='white',
+        stat='count',
+        element='step',
+        fill=True,
         alpha=0.2,
+        color='skyblue',
         ax=axes[0]
     )
     axes[0].set_title('Real-Data Model Score Distribution')
@@ -51,17 +106,17 @@ def plot_comparative_credit_score_distribution(
     sns.histplot(
         synth_scores,
         bins=bins,
-        kde=kde,
-        color='#1F77B4',
-        edgecolor='white',
+        stat='count',
+        element='step',
+        fill=True,
         alpha=0.2,
+        color='skyblue',
         ax=axes[1]
     )
     axes[1].set_title('Synthetic-Data Model Score Distribution')
     axes[1].set_xlabel('Predicted Credit Score')
     axes[1].set_ylabel('Frequency')
 
-    plt.suptitle(title, fontsize=16, fontweight='bold')
     plt.tight_layout()
     return fig
 
@@ -75,16 +130,14 @@ def plot_comparison_table(
 
     fig, ax = plt.subplots(figsize=(18, 2))
     ax.axis('off')
-    ax.set_title(title, fontsize=16, fontweight='bold', pad=12)
 
     table = ax.table(
         cellText=display_df.values,
         rowLabels=display_df.index,
         colLabels=display_df.columns,
         cellLoc='center',
-        loc='center'
+        loc='center',
     )
-
     table.auto_set_font_size(False)
     table.set_fontsize(16)
     table.scale(1.2, 1.9)
@@ -93,12 +146,22 @@ def plot_comparison_table(
         table[(0, j)].set_facecolor('#1F77B4')
         table[(0, j)].set_text_props(color='white', weight='bold')
 
+        table[(0, j)].set_edgecolor('white')
+        table[(0, j)].set_linewidth(1)
+
     for i in range(1, len(display_df.index) + 1):
-        bg = '#F7F9FB' if i % 2 else '#EAF2FA'
-        table[(i, -1)].set_text_props(weight='bold')
+        bg = '#0B0F19' if i % 2 else '#0B0F19'
+
+        table[(i, -1)].set_text_props(color='white', weight='bold')
         table[(i, -1)].set_facecolor(bg)
+        table[(i, -1)].set_edgecolor('white')
+        table[(i, -1)].set_linewidth(1)
+
         for j in range(len(display_df.columns)):
             table[(i, j)].set_facecolor(bg)
+            table[(i, j)].set_text_props(color='white')
+            table[(i, j)].set_edgecolor('white')
+            table[(i, j)].set_linewidth(1)
 
     plt.tight_layout()
     return fig
@@ -141,8 +204,6 @@ def plot_comparative_confusion_matrices(
     axes[1].set_title(f"Synthetic Data Confusion Matrix")
     axes[1].set_xlabel("Predicted")
     axes[1].set_ylabel("Actual")
-
-    fig.suptitle("Comparative Confusion Matrices: Real vs Synthetic Models", fontsize=16, fontweight='bold')
 
     plt.tight_layout()
     return fig
@@ -196,8 +257,6 @@ def plot_comparative_credit_score_distribution_by_actual_class(
     ax_right.set_xlabel('Predicted Credit Score')
     ax_right.set_ylabel('Frequency')
     ax_right.legend(title='Actual Class')
-
-    plt.suptitle('Comparative Credit Score Distribution by Actual Class: Real vs Synthetic Models', fontsize=16, fontweight='bold')
 
     plt.tight_layout()
     return fig
