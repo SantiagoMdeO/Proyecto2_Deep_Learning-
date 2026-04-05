@@ -1,5 +1,15 @@
+import torch
 import pandas as pd
 from sdv.single_table import CTGANSynthesizer
+
+# Patch torch.load to remap MPS tensors to CPU for environments without Apple Silicon
+_original_torch_load = torch.load
+
+def _cpu_map_load(*args, **kwargs):
+    kwargs.setdefault('map_location', 'cpu')
+    return _original_torch_load(*args, **kwargs)
+
+torch.load = _cpu_map_load
 
 
 def generate_synthetic_training_data(n=30_000):
