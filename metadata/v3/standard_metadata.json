@@ -1,0 +1,71 @@
+{
+    "columns": {
+        "Age": {
+            "sdtype": "numerical"
+        },
+        "Occupation": {
+            "sdtype": "categorical"
+        },
+        "Annual_Income": {
+            "sdtype": "numerical"
+        },
+        "Monthly_Inhand_Salary": {
+            "sdtype": "numerical"
+        },
+        "Num_Bank_Accounts": {
+            "sdtype": "numerical"
+        },
+        "Num_Credit_Card": {
+            "sdtype": "numerical"
+        },
+        "Interest_Rate": {
+            "sdtype": "numerical"
+        },
+        "Num_of_Loan": {
+            "sdtype": "categorical"
+        },
+        "Delay_from_due_date": {
+            "sdtype": "numerical"
+        },
+        "Num_of_Delayed_Payment": {
+            "sdtype": "numerical"
+        },
+        "Changed_Credit_Limit": {
+            "sdtype": "numerical"
+        },
+        "Num_Credit_Inquiries": {
+            "sdtype": "numerical"
+        },
+        "Credit_Mix": {
+            "sdtype": "categorical"
+        },
+        "Outstanding_Debt": {
+            "sdtype": "numerical"
+        },
+        "Credit_Utilization_Ratio": {
+            "sdtype": "numerical"
+        },
+        "Payment_of_Min_Amount": {
+            "sdtype": "categorical"
+        },
+        "Amount_invested_monthly": {
+            "sdtype": "numerical"
+        },
+        "Monthly_Balance": {
+            "sdtype": "numerical"
+        },
+        "Credit_Score": {
+            "sdtype": "categorical"
+        },
+        "Credit_History_Years": {
+            "sdtype": "numerical"
+        },
+        "Spending_Level": {
+            "sdtype": "categorical"
+        },
+        "Payment_Size": {
+            "sdtype": "categorical"
+        }
+    },
+    "METADATA_SPEC_VERSION": "SINGLE_TABLE_V1"
+}
