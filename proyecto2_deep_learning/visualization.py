@@ -260,3 +260,47 @@ def plot_comparative_credit_score_distribution_by_actual_class(
 
     plt.tight_layout()
     return fig
+
+
+def plot_evaluation_table(summary_df, title="Synthetic Data Evaluation Summary"):
+    display_df = summary_df.copy().round(4)
+
+    fig, ax = plt.subplots(figsize=(18, 2))
+    ax.axis("off")
+
+    table = ax.table(
+        cellText  = display_df.values,
+        rowLabels = display_df.index,
+        colLabels = display_df.columns,
+        cellLoc   = "center",
+        loc       = "center",
+    )
+    table.auto_set_font_size(False)
+    table.set_fontsize(16)
+    table.scale(1.2, 1.9)
+
+    for j in range(len(display_df.columns)):
+        table[(0, j)].set_facecolor("#1F77B4")
+        table[(0, j)].set_text_props(color="white", weight="bold")
+        table[(0, j)].set_edgecolor("white")
+        table[(0, j)].set_linewidth(1)
+
+    for i in range(1, len(display_df.index) + 1):
+        bg = "#0B0F19"
+
+        table[(i, -1)].set_text_props(color="white", weight="bold")
+        table[(i, -1)].set_facecolor(bg)
+        table[(i, -1)].set_edgecolor("white")
+        table[(i, -1)].set_linewidth(1)
+
+        for j in range(len(display_df.columns)):
+            table[(i, j)].set_facecolor(bg)
+            table[(i, j)].set_text_props(color="white")
+            table[(i, j)].set_edgecolor("white")
+            table[(i, j)].set_linewidth(1)
+
+    ax.set_title(title, color="white", fontsize=16, weight="bold", pad=12)
+    fig.patch.set_facecolor("#0B0F19")
+
+    plt.tight_layout()
+    return fig
